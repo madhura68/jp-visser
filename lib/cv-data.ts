@@ -2,7 +2,7 @@ export const CV_DATA = {
   name: "Janpeter Visser",
   tagline: "Software Engineer · Full Stack Developer",
   intro:
-    "Sinds mijn afstuderen werk ik met enthousiasme en nieuwsgierigheid in de IT. Ik ben een allround developer die graag nieuwe technologieën onderzoekt, evalueert en inzet in nieuwe projecten. De afgelopen jaren heb ik meerdere complexe projecten bij de hand gehad — ik vind het leuk om mij daarin vast te bijten en in een klein team naar oplossingen te zoeken.",
+    "Ik bouw al tientallen jaren software, maar de laatste tijd voelt het weer als het begin — dankzij AI. Met Claude en ChatGPT maak ik kleine tools die ergens echt bij helpen: voor vrijwilligers, voor mezelf, en soms gewoon uit nieuwsgierigheid.",
   contact: {
     email: "janpetervisser2@gmail.com",
     location: "Rotterdam",
@@ -79,21 +79,21 @@ export const CV_DATA = {
   },
   skills: {
     languages: [
+      "Python",
+      "TypeScript",
+      "JavaScript",
+      "C#",
       "C",
       "C++",
-      "C#",
-      "JavaScript",
-      "TypeScript",
       "HTML",
       "CSS",
       "Visual Basic",
       "Assembler",
-      "LISP",
-      "Prolog",
-      "Perl",
-      "Delphi",
     ],
     frameworks: [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
       "Angular",
       "Angular Material",
       "Nx",
@@ -101,13 +101,14 @@ export const CV_DATA = {
       "ASP.NET Core",
     ],
     databases: [
+      "Supabase",
       "Microsoft SQL Server",
       "Oracle",
       "MySQL",
       "MariaDB",
       "Microsoft Access",
     ],
-    tools: ["Git", "Visual Sourcesafe"],
+    tools: ["Claude", "ChatGPT", "Git", "Supabase", "Vercel"],
     spoken: ["Nederlands", "Engels", "Duits"],
   },
   interests: [
