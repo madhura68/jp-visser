@@ -1,10 +1,19 @@
+import Image from "next/image";
 import { FadeIn } from "./fade-in";
 
-const PLACEHOLDER_APPS = [
-  { icon: "⚡", label: "App 1 — binnenkort" },
-  { icon: "🔧", label: "App 2 — binnenkort" },
-  { icon: "📱", label: "App 3 — binnenkort" },
+const APPS = [
+  {
+    title: "Inspannings Monitor",
+    subtitle: "Wellness-first dagflow",
+    description:
+      "Een lichte app die helpt doseren en inzicht geeft zonder lange formulieren of overprikkeling.",
+    screenshot: "/images/app-inspannings-monitor.png",
+    screenshotMobile: "/images/app-inspannings-monitor-mobile.png",
+    href: "https://inspannings-monitor.jp-visser.nl/dashboard",
+  },
 ];
+
+const PLACEHOLDER_APPS = [{ label: "App 2 — binnenkort" }];
 
 export function AppsSection() {
   return (
@@ -38,9 +47,79 @@ export function AppsSection() {
         </p>
       </FadeIn>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {PLACEHOLDER_APPS.map((app, i) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {APPS.map((app, i) => (
           <FadeIn key={i} delay={i * 0.1}>
+            <a
+              href={app.href}
+              className="block rounded-2xl overflow-hidden no-underline group"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              {/* Screenshots */}
+              <div
+                className="relative w-full overflow-hidden"
+                style={{ height: 220, background: "rgba(255,255,255,0.02)" }}
+              >
+                {/* Desktop screenshot */}
+                <Image
+                  src={app.screenshot}
+                  alt={app.title}
+                  fill
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 420px"
+                />
+                {/* Mobile screenshot overlay */}
+                {app.screenshotMobile && (
+                  <div
+                    className="absolute bottom-0 right-5 overflow-hidden rounded-t-xl"
+                    style={{
+                      width: 72,
+                      height: 130,
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                    }}
+                  >
+                    <Image
+                      src={app.screenshotMobile}
+                      alt={`${app.title} mobiel`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="72px"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Info */}
+              <div className="p-6">
+                <p
+                  className="text-[11px] font-semibold uppercase mb-1"
+                  style={{ color: "#c2339b", letterSpacing: 2 }}
+                >
+                  {app.subtitle}
+                </p>
+                <h3
+                  className="font-serif font-normal mb-2"
+                  style={{ fontSize: 20, color: "#e8e4df" }}
+                >
+                  {app.title}
+                </h3>
+                <p
+                  className="text-[14px] leading-[1.6]"
+                  style={{ color: "rgba(255,255,255,0.45)" }}
+                >
+                  {app.description}
+                </p>
+              </div>
+            </a>
+          </FadeIn>
+        ))}
+
+        {PLACEHOLDER_APPS.map((app, i) => (
+          <FadeIn key={i} delay={(APPS.length + i) * 0.1}>
             <div
               className="rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px] text-center"
               style={{
@@ -48,15 +127,6 @@ export function AppsSection() {
                 border: "1px dashed rgba(255,255,255,0.1)",
               }}
             >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-xl"
-                style={{
-                  background: "rgba(194,51,155,0.1)",
-                  color: "#c2339b",
-                }}
-              >
-                {app.icon}
-              </div>
               <p
                 className="text-[14px]"
                 style={{ color: "rgba(255,255,255,0.3)" }}

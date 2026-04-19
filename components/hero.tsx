@@ -141,6 +141,17 @@ export function Hero() {
               >
                 Bekijk CV
               </a>
+              <a
+                href="#apps"
+                className="px-8 py-3 rounded-lg text-sm font-semibold no-underline"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  color: "rgba(255,255,255,0.7)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                Apps
+              </a>
             </div>
           </div>
         </div>
