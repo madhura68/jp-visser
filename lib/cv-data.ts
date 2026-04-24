@@ -2,7 +2,13 @@ export const CV_DATA = {
   name: "Janpeter Visser",
   tagline: "Software Engineer · Full Stack Developer",
   intro:
-    "Ik bouw al tientallen jaren software, maar de laatste tijd voelt het weer als het begin — dankzij AI. Met Claude en ChatGPT maak ik kleine tools die ergens echt bij helpen: voor vrijwilligers, voor mezelf, en soms gewoon uit nieuwsgierigheid.",
+    "Software engineer en full stack developer met ruim dertig jaar ervaring in het bouwen, onderhouden en verbeteren van software. Sterk in het aanbrengen van structuur, het doorgronden van bestaande systemen en het ontwikkelen van praktische webapplicaties. Werkt met TypeScript, React, Next.js, C#, databases en AI-tools zoals Claude Code en ChatGPT. Beschikbaar voor een duurzame parttime inzet.",
+  motivation: [
+    "Met mijn achtergrond als software engineer en full stack developer ben ik op zoek naar een rol waarin ik mijn brede ervaring opnieuw gericht kan inzetten. Ik heb ruim dertig jaar ervaring met het ontwerpen, bouwen en verbeteren van software, van bedrijfskritische webapplicaties en klantportalen tot moderne full stack toepassingen met TypeScript, React, Next.js, C# en databases.",
+    "Wat mij typeert is dat ik snel structuur aanbreng in complexe systemen. Ik vind het interessant om bestaande software begrijpelijker, stabieler en bruikbaarder te maken, maar ook om nieuwe tools te bouwen die direct waarde leveren. De laatste tijd werk ik veel met AI-tools zoals Claude Code en ChatGPT, onder andere in eigen projecten zoals Scrum4Me en de Inspannings Monitor. Daardoor combineer ik jarenlange technische ervaring met een moderne, praktische manier van ontwikkelen.",
+    "Ik zoek bij voorkeur een parttime rol waarin ik duurzaam en geconcentreerd kan bijdragen, met een inzetbaarheid van ongeveer 50%. In zo'n vorm kom ik het beste tot mijn recht: met duidelijke prioriteiten, heldere communicatie en werk waarin kwaliteit, continuïteit en betrouwbaarheid belangrijk zijn.",
+    "Ik breng rust, ervaring en technisch overzicht mee, en werk graag samen met mensen die software willen maken die echt gebruikt wordt.",
+  ],
   contact: {
     email: "janpetervisser2@gmail.com",
     location: "Rotterdam",
