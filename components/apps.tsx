@@ -11,9 +11,15 @@ const APPS = [
     screenshotMobile: "/images/app-inspannings-monitor-mobile.png",
     href: "https://inspannings-monitor.jp-visser.nl/dashboard",
   },
+  {
+    title: "Scrum4Me",
+    subtitle: "DevPlanner voor kleine teams",
+    description:
+      "Een desktop-first fullstack webapplicatie voor solo developers en kleine Scrum Teams die meerdere softwareprojecten parallel beheren. De app organiseert werk hierarchisch (product -> PBI -> story -> taak), biedt gesplitste planningsschermen met drag-and-drop, en integreert met Claude Code via een REST API.",
+    screenshot: "/images/app-scrum4me.svg",
+    href: "https://scrum4me.jp-visser.nl",
+  },
 ];
-
-const PLACEHOLDER_APPS = [{ label: "App 2 — binnenkort" }];
 
 export function AppsSection() {
   return (
@@ -70,6 +76,7 @@ export function AppsSection() {
                   fill
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, 420px"
+                  priority={i === 0}
                 />
                 {/* Mobile screenshot overlay */}
                 {app.screenshotMobile && (
@@ -118,24 +125,6 @@ export function AppsSection() {
           </FadeIn>
         ))}
 
-        {PLACEHOLDER_APPS.map((app, i) => (
-          <FadeIn key={i} delay={(APPS.length + i) * 0.1}>
-            <div
-              className="rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px] text-center"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px dashed rgba(255,255,255,0.1)",
-              }}
-            >
-              <p
-                className="text-[14px]"
-                style={{ color: "rgba(255,255,255,0.3)" }}
-              >
-                {app.label}
-              </p>
-            </div>
-          </FadeIn>
-        ))}
       </div>
     </section>
   );

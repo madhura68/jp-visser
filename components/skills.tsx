@@ -6,6 +6,7 @@ import { CV_DATA } from "@/lib/cv-data";
 
 const DEVICONS = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 const SIMPLE = "https://cdn.simpleicons.org";
+const FLAGS = "https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3";
 
 const SKILL_ICONS: Record<string, string> = {
   // Languages
@@ -23,7 +24,7 @@ const SKILL_ICONS: Record<string, string> = {
   "Tailwind CSS": `${SIMPLE}/tailwindcss/06B6D4`,
   Angular: `${DEVICONS}/angularjs/angularjs-original.svg`,
   "Angular Material": `${SIMPLE}/angular/DD0031`,
-  Nx: `${SIMPLE}/nx/143055`,
+  Redux: `${SIMPLE}/redux/764ABC`,
   "ASP.NET": `${SIMPLE}/dotnet/512BD4`,
   "ASP.NET Core": `${SIMPLE}/dotnet/512BD4`,
   // Databases
@@ -33,21 +34,37 @@ const SKILL_ICONS: Record<string, string> = {
   MariaDB: `${DEVICONS}/mariadb/mariadb-original.svg`,
   // Tools
   Claude: `${SIMPLE}/anthropic/c5a880`,
-  ChatGPT: `${SIMPLE}/openai/ffffff`,
+  "Claude Code": `${SIMPLE}/anthropic/c5a880`,
   Git: `${DEVICONS}/git/git-original.svg`,
+  GitHub: `${SIMPLE}/github/ffffff`,
   Supabase: `${SIMPLE}/supabase/3ECF8E`,
-  Vercel: `${SIMPLE}/vercel/ffffff`,
+  Obsidian: `${SIMPLE}/obsidian/7C3AED`,
+  NotebookLM: `${SIMPLE}/googlegemini/8E75B2`,
 };
 
-const LANGUAGE_FLAGS: Record<string, string> = {
-  Nederlands: "🇳🇱",
-  Engels: "🇬🇧",
-  Duits: "🇩🇪",
+const BADGE_ICONS: Record<string, string> = {
+  ChatGPT: "AI",
+  Neon: "N",
+  Vercel: "▲",
+};
+
+const LANGUAGE_ICONS: Record<string, string> = {
+  Nederlands: `${FLAGS}/nl.svg`,
+  Engels: `${FLAGS}/gb.svg`,
+  Duits: `${FLAGS}/de.svg`,
+};
+
+const LANGUAGE_PROGRESS: Record<string, number> = {
+  Nederlands: 100,
+  Engels: 85,
+  Duits: 55,
 };
 
 function SkillPill({ label }: { label: string }) {
-  const icon = SKILL_ICONS[label];
-  const flag = LANGUAGE_FLAGS[label];
+  const icon = SKILL_ICONS[label] ?? LANGUAGE_ICONS[label];
+  const badge = BADGE_ICONS[label];
+  const isLanguage = label in LANGUAGE_ICONS;
+
   return (
     <span
       className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[13px] font-medium mr-1.5 mb-1.5 transition-all duration-200 hover:bg-[rgba(194,51,155,0.18)] hover:text-[#e8e4df]"
@@ -57,20 +74,70 @@ function SkillPill({ label }: { label: string }) {
         color: "rgba(255,255,255,0.65)",
       }}
     >
-      {flag && <span className="text-base leading-none">{flag}</span>}
-      {!flag && icon && (
+      {icon && (
         <Image
           src={icon}
           alt={label}
-          width={16}
-          height={16}
-          className="flex-shrink-0"
-          style={{ objectFit: "contain" }}
+          width={isLanguage ? 16 : 16}
+          height={isLanguage ? 12 : 16}
+          className={isLanguage ? "flex-shrink-0 rounded-[2px]" : "flex-shrink-0"}
+          style={{
+            height: isLanguage ? 12 : 16,
+            objectFit: "contain",
+            width: 16,
+          }}
           unoptimized
         />
       )}
+      {!icon && badge && (
+        <span
+          className="inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-[3px] text-[9px] font-semibold leading-none"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            color: "#e8e4df",
+          }}
+        >
+          {badge}
+        </span>
+      )}
       {label}
     </span>
+  );
+}
+
+function LanguageProgress({ label }: { label: string }) {
+  const icon = LANGUAGE_ICONS[label];
+  const progress = LANGUAGE_PROGRESS[label] ?? 0;
+
+  return (
+    <div className="mb-4 last:mb-0">
+      <div className="mb-2 flex items-center gap-2 text-[13px] font-medium">
+        {icon && (
+          <Image
+            src={icon}
+            alt={label}
+            width={16}
+            height={12}
+            className="flex-shrink-0 rounded-[2px]"
+            style={{ height: 12, objectFit: "contain", width: 16 }}
+            unoptimized
+          />
+        )}
+        <span style={{ color: "rgba(255,255,255,0.65)" }}>{label}</span>
+      </div>
+      <div
+        className="h-1.5 overflow-hidden rounded-full"
+        style={{ background: "rgba(255,255,255,0.08)" }}
+      >
+        <div
+          className="h-full rounded-full"
+          style={{
+            width: `${progress}%`,
+            background: "linear-gradient(90deg, #c2339b, #e8e4df)",
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -78,6 +145,7 @@ const SKILL_GROUPS = [
   { title: "Programmeertalen", items: CV_DATA.skills.languages },
   { title: "Frameworks", items: CV_DATA.skills.frameworks },
   { title: "Databases", items: CV_DATA.skills.databases },
+  { title: "AI / AI-tools", items: CV_DATA.skills.aiTools },
   { title: "Talen", items: CV_DATA.skills.spoken },
 ];
 
@@ -127,9 +195,9 @@ export function SkillsSection() {
                 {group.title}
               </h3>
               <div>
-                {group.items.map((s) => (
-                  <SkillPill key={s} label={s} />
-                ))}
+                {group.title === "Talen"
+                  ? group.items.map((s) => <LanguageProgress key={s} label={s} />)
+                  : group.items.map((s) => <SkillPill key={s} label={s} />)}
               </div>
             </div>
           </FadeIn>
