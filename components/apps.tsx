@@ -17,7 +17,7 @@ const APPS = [
     description:
       "Een desktop-first fullstack webapplicatie voor solo developers en kleine Scrum Teams die meerdere softwareprojecten parallel beheren. De app organiseert werk hierarchisch (product -> PBI -> story -> taak), biedt gesplitste planningsschermen met drag-and-drop, en integreert met Claude Code via een REST API.",
     screenshot: "/images/app-scrum4me.svg",
-    href: "https://scrum4me.jp-visser.nl",
+    href: "https://scrum4me.jp-visser.nl/dashboard",
   },
 ];
 
