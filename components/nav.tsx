@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { getCvData, type Lang } from "@/lib/cv-data";
+
+const FLAGS = "https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3";
+const LANG_FLAGS: Record<Lang, string> = {
+  nl: `${FLAGS}/nl.svg`,
+  en: `${FLAGS}/gb.svg`,
+};
 
 export function Nav({ lang }: { lang: Lang }) {
   const [active, setActive] = useState("over");
@@ -46,12 +53,30 @@ export function Nav({ lang }: { lang: Lang }) {
         height: 64,
       }}
     >
-      <span
-        className="font-serif text-[22px] tracking-tight"
-        style={{ color: "#e8e4df" }}
-      >
-        JP<span style={{ color: "#c2339b" }}>.</span>
-      </span>
+      <div className="flex items-center gap-3">
+        <span
+          className="font-serif text-[22px] tracking-tight"
+          style={{ color: "#e8e4df" }}
+        >
+          JP<span style={{ color: "#c2339b" }}>.</span>
+        </span>
+        <a
+          href="https://github.com/madhura68"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center no-underline transition-opacity duration-200 hover:opacity-100"
+          style={{ opacity: 0.5 }}
+          aria-label="GitHub"
+        >
+          <Image
+            src="https://cdn.simpleicons.org/github/ffffff"
+            alt="GitHub"
+            width={18}
+            height={18}
+            unoptimized
+          />
+        </a>
+      </div>
 
       <div className="hidden sm:flex items-center gap-8">
         {navItems.map(({ label, id }) => (
@@ -74,16 +99,20 @@ export function Nav({ lang }: { lang: Lang }) {
 
         {/* Language switcher */}
         <div
-          className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[1px] ml-2"
+          className="flex items-center gap-2 ml-2"
           style={{ borderLeft: "1px solid rgba(255,255,255,0.1)", paddingLeft: "1.5rem" }}
         >
-          <span style={{ color: "#c2339b" }}>{lang.toUpperCase()}</span>
+          <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[1px]" style={{ color: "#c2339b" }}>
+            <Image src={LANG_FLAGS[lang]} alt={lang} width={18} height={13} className="rounded-[2px]" unoptimized />
+            {lang.toUpperCase()}
+          </span>
           <span style={{ color: "rgba(255,255,255,0.2)" }}>/</span>
           <Link
             href={`/${otherLang}`}
+            className="no-underline flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[1px] transition-colors duration-200"
             style={{ color: "rgba(255,255,255,0.4)" }}
-            className="no-underline hover:text-white transition-colors duration-200"
           >
+            <Image src={LANG_FLAGS[otherLang]} alt={otherLang} width={18} height={13} className="rounded-[2px]" unoptimized />
             {otherLang.toUpperCase()}
           </Link>
         </div>
@@ -133,13 +162,17 @@ export function Nav({ lang }: { lang: Lang }) {
           </button>
         ))}
         <div className="flex items-center gap-2 px-8 pt-3 mt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <span className="text-[12px] font-semibold uppercase" style={{ color: "#c2339b" }}>{lang.toUpperCase()}</span>
+          <span className="flex items-center gap-1.5 text-[12px] font-semibold uppercase" style={{ color: "#c2339b" }}>
+            <Image src={LANG_FLAGS[lang]} alt={lang} width={18} height={13} className="rounded-[2px]" unoptimized />
+            {lang.toUpperCase()}
+          </span>
           <span className="text-[12px]" style={{ color: "rgba(255,255,255,0.2)" }}>/</span>
           <Link
             href={`/${otherLang}`}
-            className="text-[12px] font-semibold uppercase no-underline"
+            className="flex items-center gap-1.5 text-[12px] font-semibold uppercase no-underline"
             style={{ color: "rgba(255,255,255,0.4)" }}
           >
+            <Image src={LANG_FLAGS[otherLang]} alt={otherLang} width={18} height={13} className="rounded-[2px]" unoptimized />
             {otherLang.toUpperCase()}
           </Link>
         </div>
