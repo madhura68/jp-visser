@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { CV_DATA } from "@/lib/cv-data";
+import { getCvData, type Lang } from "@/lib/cv-data";
 
-export function Hero() {
+export function Hero({ lang }: { lang: Lang }) {
   const [loaded, setLoaded] = useState(false);
+  const data = getCvData(lang);
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 100);
@@ -116,7 +117,7 @@ export function Hero() {
               className="text-[16px] leading-[1.7] max-w-[480px]"
               style={{ color: "rgba(255,255,255,0.55)" }}
             >
-              {CV_DATA.intro}
+              {data.intro}
             </p>
 
             <div className="flex gap-4 mt-8 flex-wrap">
@@ -139,7 +140,7 @@ export function Hero() {
                   border: "1px solid rgba(255,255,255,0.08)",
                 }}
               >
-                Bekijk CV
+                {data.ui.hero.viewCV}
               </a>
               <a
                 href="#apps"

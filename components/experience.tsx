@@ -2,14 +2,18 @@
 
 import { useState } from "react";
 import { FadeIn } from "./fade-in";
-import { CV_DATA, type Experience } from "@/lib/cv-data";
+import { getCvData, type Lang, type Experience } from "@/lib/cv-data";
 
 function ExperienceCard({
   job,
   index,
+  showMore,
+  showLess,
 }: {
   job: Experience;
   index: number;
+  showMore: string;
+  showLess: string;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -98,7 +102,7 @@ function ExperienceCard({
             className="text-[12px] mt-3"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
-            {expanded ? "▲ Minder tonen" : "▼ Meer details"}
+            {expanded ? showLess : showMore}
           </p>
         )}
       </div>
@@ -106,7 +110,10 @@ function ExperienceCard({
   );
 }
 
-export function ExperienceSection() {
+export function ExperienceSection({ lang }: { lang: Lang }) {
+  const data = getCvData(lang);
+  const { label, heading, educationLabel, showMore, showLess } = data.ui.experience;
+
   return (
     <section
       id="ervaring"
@@ -118,7 +125,7 @@ export function ExperienceSection() {
           className="text-[13px] font-semibold uppercase mb-3"
           style={{ color: "#c2339b", letterSpacing: 3 }}
         >
-          Loopbaan
+          {label}
         </p>
         <h2
           className="font-serif font-normal mb-12"
@@ -128,12 +135,12 @@ export function ExperienceSection() {
             letterSpacing: -1,
           }}
         >
-          Werkervaring
+          {heading}
         </h2>
       </FadeIn>
 
-      {CV_DATA.experience.map((job, i) => (
-        <ExperienceCard key={i} job={job} index={i} />
+      {data.experience.map((job, i) => (
+        <ExperienceCard key={i} job={job} index={i} showMore={showMore} showLess={showLess} />
       ))}
 
       <FadeIn delay={0.2}>
@@ -148,32 +155,32 @@ export function ExperienceSection() {
             className="text-[13px] font-semibold uppercase mb-3"
             style={{ color: "#c2339b", letterSpacing: 3 }}
           >
-            Opleiding
+            {educationLabel}
           </p>
           <h3
             className="font-serif text-2xl font-normal mb-1"
             style={{ color: "#e8e4df" }}
           >
-            {CV_DATA.education.university}
+            {data.education.university}
           </h3>
           <p
             className="text-[15px] mb-1"
             style={{ color: "rgba(255,255,255,0.5)" }}
           >
-            {CV_DATA.education.degree} —{" "}
-            {CV_DATA.education.specialization}
+            {data.education.degree} —{" "}
+            {data.education.specialization}
           </p>
           <p
             className="text-[13px] mb-4"
             style={{ color: "rgba(255,255,255,0.35)" }}
           >
-            {CV_DATA.education.period}
+            {data.education.period}
           </p>
           <p
             className="text-[14px]"
             style={{ color: "rgba(255,255,255,0.4)" }}
           >
-            {CV_DATA.education.secondary}
+            {data.education.secondary}
           </p>
         </div>
       </FadeIn>

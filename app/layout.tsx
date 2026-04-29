@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -9,28 +10,19 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Janpeter Visser — Software Engineer",
-  description:
-    "Persoonlijke website van Janpeter Visser. Allround software engineer met 30 jaar ervaring in full-stack development, van C++ tot Angular en .NET.",
   metadataBase: new URL("https://jp-visser.nl"),
-  openGraph: {
-    title: "Janpeter Visser — Software Engineer",
-    description:
-      "Allround software engineer met 30 jaar ervaring in full-stack development.",
-    url: "https://jp-visser.nl",
-    siteName: "Janpeter Visser",
-    locale: "nl_NL",
-    type: "website",
-  },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = await headers();
+  const lang = headersList.get("x-lang") ?? "nl";
+
   return (
-    <html lang="nl" className={dmSans.variable}>
+    <html lang={lang} className={dmSans.variable}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

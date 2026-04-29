@@ -1,24 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { getCvData, type Lang } from "@/lib/cv-data";
 
-const NAV_ITEMS = [
-  { label: "Over", id: "over" },
-  { label: "Ervaring", id: "ervaring" },
-  { label: "Skills", id: "skills" },
-  { label: "Apps", id: "apps" },
-  { label: "Contact", id: "contact" },
-];
-
-export function Nav() {
+export function Nav({ lang }: { lang: Lang }) {
   const [active, setActive] = useState("over");
   const [scrolled, setScrolled] = useState(false);
+  const data = getCvData(lang);
+  const navItems = data.ui.nav;
+  const otherLang: Lang = lang === "nl" ? "en" : "nl";
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = [...NAV_ITEMS].reverse();
+      const sections = [...navItems].reverse();
       for (const { id } of sections) {
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top < 200) {
@@ -30,7 +27,7 @@ export function Nav() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]);
 
   const handleNav = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -56,8 +53,8 @@ export function Nav() {
         JP<span style={{ color: "#c2339b" }}>.</span>
       </span>
 
-      <div className="hidden sm:flex gap-8">
-        {NAV_ITEMS.map(({ label, id }) => (
+      <div className="hidden sm:flex items-center gap-8">
+        {navItems.map(({ label, id }) => (
           <button
             key={id}
             onClick={() => handleNav(id)}
@@ -74,6 +71,22 @@ export function Nav() {
             {label}
           </button>
         ))}
+
+        {/* Language switcher */}
+        <div
+          className="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[1px] ml-2"
+          style={{ borderLeft: "1px solid rgba(255,255,255,0.1)", paddingLeft: "1.5rem" }}
+        >
+          <span style={{ color: "#c2339b" }}>{lang.toUpperCase()}</span>
+          <span style={{ color: "rgba(255,255,255,0.2)" }}>/</span>
+          <Link
+            href={`/${otherLang}`}
+            style={{ color: "rgba(255,255,255,0.4)" }}
+            className="no-underline hover:text-white transition-colors duration-200"
+          >
+            {otherLang.toUpperCase()}
+          </Link>
+        </div>
       </div>
 
       {/* Mobile menu button */}
@@ -102,7 +115,7 @@ export function Nav() {
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        {NAV_ITEMS.map(({ label, id }) => (
+        {navItems.map(({ label, id }) => (
           <button
             key={id}
             onClick={() => {
@@ -119,6 +132,17 @@ export function Nav() {
             {label}
           </button>
         ))}
+        <div className="flex items-center gap-2 px-8 pt-3 mt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <span className="text-[12px] font-semibold uppercase" style={{ color: "#c2339b" }}>{lang.toUpperCase()}</span>
+          <span className="text-[12px]" style={{ color: "rgba(255,255,255,0.2)" }}>/</span>
+          <Link
+            href={`/${otherLang}`}
+            className="text-[12px] font-semibold uppercase no-underline"
+            style={{ color: "rgba(255,255,255,0.4)" }}
+          >
+            {otherLang.toUpperCase()}
+          </Link>
+        </div>
       </div>
     </nav>
   );

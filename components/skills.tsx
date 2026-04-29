@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FadeIn } from "./fade-in";
-import { CV_DATA } from "@/lib/cv-data";
+import { getCvData, type Lang, type SpokenLanguage } from "@/lib/cv-data";
 
 const DEVICONS = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 const SIMPLE = "https://cdn.simpleicons.org";
@@ -48,22 +48,9 @@ const BADGE_ICONS: Record<string, string> = {
   Vercel: "▲",
 };
 
-const LANGUAGE_ICONS: Record<string, string> = {
-  Nederlands: `${FLAGS}/nl.svg`,
-  Engels: `${FLAGS}/gb.svg`,
-  Duits: `${FLAGS}/de.svg`,
-};
-
-const LANGUAGE_PROGRESS: Record<string, number> = {
-  Nederlands: 100,
-  Engels: 85,
-  Duits: 55,
-};
-
 function SkillPill({ label }: { label: string }) {
-  const icon = SKILL_ICONS[label] ?? LANGUAGE_ICONS[label];
+  const icon = SKILL_ICONS[label];
   const badge = BADGE_ICONS[label];
-  const isLanguage = label in LANGUAGE_ICONS;
 
   return (
     <span
@@ -78,14 +65,10 @@ function SkillPill({ label }: { label: string }) {
         <Image
           src={icon}
           alt={label}
-          width={isLanguage ? 16 : 16}
-          height={isLanguage ? 12 : 16}
-          className={isLanguage ? "flex-shrink-0 rounded-[2px]" : "flex-shrink-0"}
-          style={{
-            height: isLanguage ? 12 : 16,
-            objectFit: "contain",
-            width: 16,
-          }}
+          width={16}
+          height={16}
+          className="flex-shrink-0"
+          style={{ height: 16, objectFit: "contain", width: 16 }}
           unoptimized
         />
       )}
@@ -105,25 +88,22 @@ function SkillPill({ label }: { label: string }) {
   );
 }
 
-function LanguageProgress({ label }: { label: string }) {
-  const icon = LANGUAGE_ICONS[label];
-  const progress = LANGUAGE_PROGRESS[label] ?? 0;
+function LanguageProgress({ spoken }: { spoken: SpokenLanguage }) {
+  const flagSrc = `${FLAGS}/${spoken.flag}.svg`;
 
   return (
     <div className="mb-4 last:mb-0">
       <div className="mb-2 flex items-center gap-2 text-[13px] font-medium">
-        {icon && (
-          <Image
-            src={icon}
-            alt={label}
-            width={16}
-            height={12}
-            className="flex-shrink-0 rounded-[2px]"
-            style={{ height: 12, objectFit: "contain", width: 16 }}
-            unoptimized
-          />
-        )}
-        <span style={{ color: "rgba(255,255,255,0.65)" }}>{label}</span>
+        <Image
+          src={flagSrc}
+          alt={spoken.label}
+          width={16}
+          height={12}
+          className="flex-shrink-0 rounded-[2px]"
+          style={{ height: 12, objectFit: "contain", width: 16 }}
+          unoptimized
+        />
+        <span style={{ color: "rgba(255,255,255,0.65)" }}>{spoken.label}</span>
       </div>
       <div
         className="h-1.5 overflow-hidden rounded-full"
@@ -132,7 +112,7 @@ function LanguageProgress({ label }: { label: string }) {
         <div
           className="h-full rounded-full"
           style={{
-            width: `${progress}%`,
+            width: `${spoken.progress}%`,
             background: "linear-gradient(90deg, #c2339b, #e8e4df)",
           }}
         />
@@ -141,15 +121,18 @@ function LanguageProgress({ label }: { label: string }) {
   );
 }
 
-const SKILL_GROUPS = [
-  { title: "Programmeertalen", items: CV_DATA.skills.languages },
-  { title: "Frameworks", items: CV_DATA.skills.frameworks },
-  { title: "Databases", items: CV_DATA.skills.databases },
-  { title: "AI / AI-tools", items: CV_DATA.skills.aiTools },
-  { title: "Talen", items: CV_DATA.skills.spoken },
-];
+export function SkillsSection({ lang }: { lang: Lang }) {
+  const data = getCvData(lang);
+  const { label, groupTitles, interestsHeading } = data.ui.skills;
 
-export function SkillsSection() {
+  const SKILL_GROUPS = [
+    { id: "languages", title: groupTitles.languages, items: data.skills.languages },
+    { id: "frameworks", title: groupTitles.frameworks, items: data.skills.frameworks },
+    { id: "databases", title: groupTitles.databases, items: data.skills.databases },
+    { id: "aiTools", title: groupTitles.aiTools, items: data.skills.aiTools },
+    { id: "spoken", title: groupTitles.spoken, items: [] },
+  ];
+
   return (
     <section
       id="skills"
@@ -161,7 +144,7 @@ export function SkillsSection() {
           className="text-[13px] font-semibold uppercase mb-3"
           style={{ color: "#c2339b", letterSpacing: 3 }}
         >
-          Technologie
+          {label}
         </p>
         <h2
           className="font-serif font-normal mb-12"
@@ -177,7 +160,7 @@ export function SkillsSection() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {SKILL_GROUPS.map((group, i) => (
-          <FadeIn key={group.title} delay={i * 0.1}>
+          <FadeIn key={group.id} delay={i * 0.1}>
             <div
               className="rounded-2xl p-7"
               style={{
@@ -195,8 +178,10 @@ export function SkillsSection() {
                 {group.title}
               </h3>
               <div>
-                {group.title === "Talen"
-                  ? group.items.map((s) => <LanguageProgress key={s} label={s} />)
+                {group.id === "spoken"
+                  ? data.skills.spoken.map((s) => (
+                      <LanguageProgress key={s.label} spoken={s} />
+                    ))
                   : group.items.map((s) => <SkillPill key={s} label={s} />)}
               </div>
             </div>
@@ -213,10 +198,10 @@ export function SkillsSection() {
               letterSpacing: 2,
             }}
           >
-            Interesses
+            {interestsHeading}
           </h3>
           <div className="flex gap-2 flex-wrap">
-            {CV_DATA.interests.map((interest) => (
+            {data.interests.map((interest) => (
               <span
                 key={interest}
                 className="px-5 py-2 rounded-full text-[14px]"

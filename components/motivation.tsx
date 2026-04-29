@@ -1,7 +1,9 @@
 import { FadeIn } from "./fade-in";
-import { CV_DATA } from "@/lib/cv-data";
+import { getCvData, type Lang } from "@/lib/cv-data";
 
-export function MotivationSection() {
+export function MotivationSection({ lang }: { lang: Lang }) {
+  const data = getCvData(lang);
+
   return (
     <section
       id="motivatie"
@@ -17,7 +19,7 @@ export function MotivationSection() {
             className="text-[13px] font-semibold uppercase mb-3"
             style={{ color: "#c2339b", letterSpacing: 3 }}
           >
-            Motivatie
+            {data.ui.motivation.label}
           </p>
           <h2
             className="font-serif font-normal mb-7"
@@ -27,11 +29,11 @@ export function MotivationSection() {
               letterSpacing: -1,
             }}
           >
-            Waar ik naar zoek
+            {data.ui.motivation.heading}
           </h2>
 
           <div className="max-w-[760px]">
-            {CV_DATA.motivation.map((paragraph) => (
+            {data.motivation.map((paragraph) => (
               <p
                 key={paragraph}
                 className="text-[15px] leading-[1.8] mb-5 last:mb-0"

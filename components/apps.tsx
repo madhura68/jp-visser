@@ -1,27 +1,11 @@
 import Image from "next/image";
 import { FadeIn } from "./fade-in";
+import { getCvData, type Lang } from "@/lib/cv-data";
 
-const APPS = [
-  {
-    title: "Inspannings Monitor",
-    subtitle: "Wellness-first dagflow",
-    description:
-      "Een lichte app die helpt doseren en inzicht geeft zonder lange formulieren of overprikkeling.",
-    screenshot: "/images/app-inspannings-monitor.png",
-    screenshotMobile: "/images/app-inspannings-monitor-mobile.png",
-    href: "https://inspannings-monitor.jp-visser.nl/dashboard",
-  },
-  {
-    title: "Scrum4Me",
-    subtitle: "DevPlanner voor kleine teams",
-    description:
-      "Een desktop-first fullstack webapplicatie voor solo developers en kleine Scrum Teams die meerdere softwareprojecten parallel beheren. De app organiseert werk hierarchisch (product -> PBI -> story -> taak), biedt gesplitste planningsschermen met drag-and-drop, en integreert met Claude Code via een REST API.",
-    screenshot: "/images/app-scrum4me.svg",
-    href: "https://scrum4me.jp-visser.nl",
-  },
-];
+export function AppsSection({ lang }: { lang: Lang }) {
+  const data = getCvData(lang);
+  const { label, heading, subtext } = data.ui.apps;
 
-export function AppsSection() {
   return (
     <section
       id="apps"
@@ -33,7 +17,7 @@ export function AppsSection() {
           className="text-[13px] font-semibold uppercase mb-3"
           style={{ color: "#c2339b", letterSpacing: 3 }}
         >
-          Portfolio
+          {label}
         </p>
         <h2
           className="font-serif font-normal mb-4"
@@ -43,18 +27,18 @@ export function AppsSection() {
             letterSpacing: -1,
           }}
         >
-          Apps & Projecten
+          {heading}
         </h2>
         <p
           className="text-[15px] leading-[1.7] mb-12 max-w-[500px]"
           style={{ color: "rgba(255,255,255,0.45)" }}
         >
-          Hier komen links naar mijn apps die ik op Vercel host.
+          {subtext}
         </p>
       </FadeIn>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {APPS.map((app, i) => (
+        {data.apps.map((app, i) => (
           <FadeIn key={i} delay={i * 0.1}>
             <a
               href={app.href}
@@ -91,7 +75,7 @@ export function AppsSection() {
                   >
                     <Image
                       src={app.screenshotMobile}
-                      alt={`${app.title} mobiel`}
+                      alt={`${app.title} mobile`}
                       fill
                       className="object-cover object-top"
                       sizes="72px"
@@ -124,7 +108,6 @@ export function AppsSection() {
             </a>
           </FadeIn>
         ))}
-
       </div>
     </section>
   );

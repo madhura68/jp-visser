@@ -1,25 +1,16 @@
 import { FadeIn } from "./fade-in";
-import { CV_DATA } from "@/lib/cv-data";
+import { getCvData, type Lang } from "@/lib/cv-data";
 
-const CONTACT_ITEMS = [
-  {
-    label: "E-mail",
-    value: CV_DATA.contact.email,
-    href: `mailto:${CV_DATA.contact.email}`,
-  },
-  {
-    label: "Locatie",
-    value: CV_DATA.contact.location,
-    href: null,
-  },
-  {
-    label: "Website",
-    value: "jp-visser.nl",
-    href: "https://jp-visser.nl",
-  },
-];
+export function ContactSection({ lang }: { lang: Lang }) {
+  const data = getCvData(lang);
+  const { label, heading, emailLabel, locationLabel, websiteLabel } = data.ui.contact;
 
-export function ContactSection() {
+  const CONTACT_ITEMS = [
+    { label: emailLabel, value: data.contact.email, href: `mailto:${data.contact.email}` },
+    { label: locationLabel, value: data.contact.location, href: null },
+    { label: websiteLabel, value: "jp-visser.nl", href: "https://jp-visser.nl" },
+  ];
+
   return (
     <section
       id="contact"
@@ -31,7 +22,7 @@ export function ContactSection() {
           className="text-[13px] font-semibold uppercase mb-3"
           style={{ color: "#c2339b", letterSpacing: 3 }}
         >
-          Neem contact op
+          {label}
         </p>
         <h2
           className="font-serif font-normal mb-12"
@@ -41,7 +32,7 @@ export function ContactSection() {
             letterSpacing: -1,
           }}
         >
-          Contact
+          {heading}
         </h2>
       </FadeIn>
 
