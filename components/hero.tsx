@@ -153,6 +153,26 @@ export function Hero({ lang }: { lang: Lang }) {
               >
                 Apps
               </a>
+              <a
+                href="https://github.com/madhura68"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 rounded-lg text-sm font-semibold no-underline inline-flex items-center gap-2"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  color: "rgba(255,255,255,0.7)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                }}
+              >
+                <img
+                  src="https://cdn.simpleicons.org/github/ffffff"
+                  alt="GitHub"
+                  width={16}
+                  height={16}
+                  style={{ opacity: 0.7 }}
+                />
+                GitHub
+              </a>
             </div>
           </div>
         </div>
