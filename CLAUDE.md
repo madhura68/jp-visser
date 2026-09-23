@@ -31,7 +31,7 @@ All CV content lives in a single source of truth: `lib/cv-data.ts` (`CV_DATA` co
 
 ## Scrum4Me MCP
 
-This project is tracked in [Scrum4Me](https://github.com/madhura68/Scrum4Me) via the [scrum4me-mcp](https://github.com/madhura68/scrum4me-mcp) server, which is globally configured in Claude Code (`~/.claude/mcp_servers.json`). Use it to fetch the next story, update task status, and log implementation/test/commit activity.
+This project is tracked in [Scrum4Me](https://github.com/madhura68/Scrum4Me) via the [scrum4me-mcp](https://github.com/madhura68/scrum4me-mcp) server, which is globally configured in Claude Code (`~/.claude/mcp_servers.json`). Use it to fetch product context and the relevant sprint details, update task status, and log implementation/test/commit activity.
 
 **Product ID**: discover with `mcp__scrum4me__list_products` (the SCRUM4ME-product is for the Scrum4Me-app itself; create a separate `jp-visser` product in the UI if it doesn't exist yet, then put its CUID here):
 
@@ -51,7 +51,7 @@ Stories land in the product backlog (status=OPEN); move them into a sprint via t
 
 **Workflow per change**:
 
-1. `mcp__scrum4me__get_claude_context` with the product_id → returns next story + tasks
+1. `mcp__scrum4me__get_context(product_id)` → product, all `active_sprints` and `agent_guide`. Select the sprint within the current request; use `get_sprint_context(sprint_id)` for compact stories/tasks and add `task_id` only for that task's full plan. Use `get_ideas_context(product_id)` only for ideas. Pass explicitly known `agent.runtime` (CLAUDE/CODEX) and `agent.model_id`; never guess them. Context does not authorize the next story.
 2. `mcp__scrum4me__update_task_status(task_id, 'in_progress')` before coding, `'done'` after
 3. `mcp__scrum4me__log_implementation` / `log_test_result` / `log_commit` to keep an activity trail per story
 4. `mcp__scrum4me__create_todo` for ad-hoc work that doesn't fit a story
